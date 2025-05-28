@@ -2,7 +2,7 @@
 
 import logger from "../../lib/logger";
 import { pool } from "../config/db";
-import { IUser } from "../interfaces/user.interface";
+import  IUser  from "../interfaces/user.interface";
 
 
 export class AuthDAO {

@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
-import { IUser } from '../interfaces/user.interface'
+import  IUser  from '../interfaces/user.interface'
 
 
 

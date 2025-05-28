@@ -25,8 +25,8 @@ export default class AuthController {
 
     async login(req: Request, res: Response):Promise<any>{
         try{
-            const {email, password} = req.body
-            const result = await AuthService.login(email, password)
+            const {ficha, password} = req.body
+            const result = await AuthService.login(ficha, password)
             return ResponseHelper.success(res,'Login successfulli', result, 201)
         }catch(error){
             logger.error(`[Error/auth/controller/login]: ${error}`)

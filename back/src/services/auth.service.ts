@@ -1,7 +1,7 @@
 import logger from "../../lib/logger";
 import { AuthDAO } from "../daos/auth.dao";
 import { ResponseHelper } from "../helpers/response.helper";
-import { IUser } from "../interfaces/user.interface";
+import  IUser  from "../interfaces/user.interface";
 import EncryptioClass from "../utils/encryption";
 
 export class AuthService {

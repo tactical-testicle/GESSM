@@ -1,7 +1,8 @@
-export default interface IResponse {
-    ok: boolean
+export default interface IResponse{
+    ok: boolean,
     message: string
-    response: any
-    code: number
+    response: any,
+    code: number,
+    user?: any,
     token?: string
 }

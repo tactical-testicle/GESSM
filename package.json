@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "csvtojson": "^2.0.10",
+    "express-fileupload": "^1.5.1"
+  },
+  "devDependencies": {
+    "@types/express-fileupload": "^1.5.1"
+  }
+}

@@ -9,6 +9,7 @@ export default class CatPuestoController {
 
     async createCatPuesto(req: Request, res: Response): Promise<any> {
         try {
+            console.log("body enviado: ", req.body)
             if (!req.body) {
                 return ResponseHelper.error(res, 'No data received', null, 400);
             }

@@ -13,14 +13,16 @@ export class UserDAO {
   }
 
   static async findByFicha(ficha: number): Promise<IUser | null> {
-    const result = await pool.query('SELECT * FROM users WHERE ficha = $1', [ficha]);
+    console.log('ficha',ficha)
+    const result = await pool.query(`SELECT * FROM users WHERE ficha = $1`, [ficha]);
+    console.log(result.rows[0])
     return result.rows[0] || null;
   }
 
   static async create(user: IUser): Promise<IUser> {
     const query = `
-      INSERT INTO users (name, password, ficha, status, role, usuario_creacion, fecha_creacion)
-      VALUES ($1, $2, $3, $4, $5, $6, NOW())
+      INSERT INTO users (name, password, ficha, status, role, usuario_creacion, fecha_creacion, nivel, salt, gerencia, rubrica)
+      VALUES ($1, $2, $3, $4, $5, $6, NOW(), $7, $8, $9, $10)
       RETURNING *;
     `;
     const values = [
@@ -29,8 +31,14 @@ export class UserDAO {
       user.ficha,
       user.status,
       user.role,
-      user.usuarioCreacion
+      user.usuarioCreacion,
+      user.nivel,
+      "salt",
+      user.gerencia,
+      user.rubrica
     ];
+    console.log(values)
+    console.log(query)
     const result = await pool.query(query, values);
     return result.rows[0];
   }

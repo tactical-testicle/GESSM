@@ -2,7 +2,7 @@ import { CatSubgerenciaDAO } from '../daos/catSubGerencia.dao';
 import IcatSubgerencia from '../interfaces/catSubgerencia.interface';
 import logger from '../../lib/logger';
 
-export class catSubgerenciaService {
+export class CatSubgerenciaService {
   static async createCatSubgerencia(body: IcatSubgerencia) {
     try {
       const newGerencia = await CatSubgerenciaDAO.create(body);

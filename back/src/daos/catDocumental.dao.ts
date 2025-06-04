@@ -50,6 +50,14 @@ export class CatDocumentalDAO {
     return result.rows[0] || null;
   }
 
+  static async updateStatus(id: string, estatus: boolean): Promise<ICatDocumental> {
+      const result = await pool.query(
+        `UPDATE cat_Documental SET estatus = $1, fechaModificacion = $2 WHERE id = $3 RETURNING *`,
+        [estatus, new Date(), id]
+      );
+      return result.rows[0];
+    }
+    
   /** Busca por nombre o crea si no existe, devolviendo el ID */
   static async getOrCreateByName(nombre: string): Promise<number> {
     // 1) Intentar encontrar

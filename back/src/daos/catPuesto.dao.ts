@@ -22,8 +22,10 @@ export class CatPuestoDAO {
       INSERT INTO cat_puesto (nombre, nivel, usuario_creacion, status)
       VALUES ($1, $2, $3, $4)
       RETURNING *`;
-    const values = [puesto.name, puesto.nivel, puesto.usuarioCreacion, puesto.estatus || 'active'];
+    const values = [puesto.nombre, puesto.nivel, puesto.usuarioCreacion, puesto.estatus || 'active'];
+    console.log("values: ", values)
     const result = await pool.query(query, values);
+    console.log("result: ", result)
     return result.rows[0];
   }
 
@@ -33,7 +35,7 @@ export class CatPuestoDAO {
       SET nombre = $1, nivel = $2, usuario_actualizacion = $3, fecha_actualizacion = NOW(), status = $4
       WHERE id = $5
       RETURNING *`;
-    const values = [puesto.name, puesto.nivel, puesto.usuarioModificacion, puesto.estatus, puesto.id];
+    const values = [puesto.nombre, puesto.nivel, puesto.usuarioModificacion, puesto.estatus, puesto.id];
     const result = await pool.query(query, values);
     return result.rows[0];
   }

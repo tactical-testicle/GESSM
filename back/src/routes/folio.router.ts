@@ -10,7 +10,7 @@ folioRouter.get('/read/:anuo', folioController.getFoliosAnuo.bind(folioControlle
 folioRouter.post('/update', folioController.updateFolio.bind(folioController))
 folioRouter.post('/delete', folioController.deleteFolio.bind(folioController))
 folioRouter.post('/changeTramite', folioController.changeTramite.bind(folioController))
-folioRouter.get('/:id', folioController.getFolioId.bind(folioController))
+folioRouter.get('/:id', folioController.getFolioById.bind(folioController))
 folioRouter.get('/statistics/month', folioController.getFoliosPorMes.bind(folioController))
 folioRouter.get('/menu/folioAnual', folioController.generarMenu.bind(folioController))
 

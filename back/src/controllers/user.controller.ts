@@ -14,17 +14,20 @@ export default class UserController {
       }
 
       const exist = await UserService.getUserByFicha(body.ficha);
-      if (exist) {
-        return ResponseHelper.error(res, "La ficha ya existe", null, 409);
+      if (exist.ok) {
+        return ResponseHelper.error(res, "La ficha que intentas crear, ya existe", null, 409);
       }
-
       const encription = new Encription();
       const { iv, encryptedData } = await encription.encryptPassword(body.password);
       body.salt = iv;
       body.password = encryptedData;
-
       const response = await UserService.createUser(body);
+      console.log("response: ",response)
+if(response.ok)
       return ResponseHelper.success(res, "Usuario creado exitosamente", response, 201);
+else
+      return ResponseHelper.success(res, "Usuario no creado exitosamente", response, 400);
+
     } catch (error) {
       logger.error(`[controller/user/createUser]: ${error}`);
       return ResponseHelper.error(res, "Error al crear usuario", null, 500);

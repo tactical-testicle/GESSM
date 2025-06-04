@@ -10,7 +10,7 @@ export default class CatRemitenteController {
    * POST /catRemitente
    * Crea un nuevo remitente
    */
-  static async createCatRemitente(req: Request, res: Response): Promise<any> {
+  async createCatRemitente(req: Request, res: Response): Promise<any> {
     try {
       if (!req.body) {
         return ResponseHelper.error(res, "No data received", null, 400);
@@ -30,7 +30,7 @@ export default class CatRemitenteController {
    * GET /catRemitente
    * Devuelve todos los remitentes
    */
-  static async getCatRemitentes(_req: Request, res: Response): Promise<any> {
+  async getCatRemitentes(_req: Request, res: Response): Promise<any> {
     try {
       const result = await CatRemitenteService.getCatRemitentes();
       if (!result.ok) {
@@ -48,7 +48,7 @@ export default class CatRemitenteController {
    * Borrado lógico: alterna status active/inactive
    * Recibe { id } en body y token en headers.authorization
    */
-  static async delete(req: Request, res: Response): Promise<any> {
+  async delete(req: Request, res: Response): Promise<any> {
     try {
       const { id } = req.body;
       const token = req.headers.authorization;

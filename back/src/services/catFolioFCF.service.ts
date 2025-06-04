@@ -2,6 +2,9 @@ import { CatFolioFCFDAO } from "../daos/catFolioFCF.dao";
 import  ICatFolioFCF  from "../interfaces/catFolioFCF.interface";
 import csv from "csvtojson";
 import logger from "../../lib/logger";
+import JWTUtil from "../utils/jwt.util"
+import { UserService } from "../services/user.service";
+
 
 export class CatFolioFCFService {
   /** Crea un folio FCF */
@@ -59,18 +62,31 @@ export class CatFolioFCFService {
   }
 
   /** Busca un folio FCF por número */
-  static async getCatFolioFCF(folioFCF: number) {
-    try {
-      const f = await CatFolioFCFDAO.findByFolio(folioFCF);
-      if (!f) {
-        return { ok: false, message: "Folio FCF no encontrado", code: 404 };
-      }
-      return { ok: true, message: "Folio FCF encontrado", response: f, code: 200 };
-    } catch (err) {
-      logger.error(`[service/catFolioFCF/getByFolio]: ${err}`);
-      return { ok: false, message: "Error al buscar folio FCF", code: 500 };
+static async getCatFolioFCF(folioFCF: number) {
+  try {
+    const f = await CatFolioFCFDAO.findByFolio(folioFCF);
+    if (!f) {
+      return {
+        ok: false,
+        message: "Folio FCF no encontrado",
+        code: 404
+      };
     }
+    return {
+      ok: true,
+      message: "Folio FCF encontrado",
+      data: f, 
+      code: 200
+    };
+  } catch (err) {
+    logger.error(`[service/catFolioFCF/getByFolio]: ${err}`);
+    return {
+      ok: false,
+      message: "Error al buscar folio FCF",
+      code: 500
+    };
   }
+}
 
   /** Carga masiva desde CSV */
   static async cargaMasivaFromCSV(filePath: any) {
@@ -102,4 +118,28 @@ export class CatFolioFCFService {
       return { ok: false, message: "Error en carga masiva", code: 500 };
     }
   }
+
+  static async takeFolioFCF(id: number, nomfolio: string, token: string) {
+    try {
+      const user = await new JWTUtil().decodeToken(token!) as any;
+      const infoUser = await UserService.getUserById(user.id);
+  
+      const folio = await CatFolioFCFDAO.findByFolio(id);
+      if (!folio) {
+        return { ok: false, message: "Folio FCF no encontrado", code: 404 };
+      }
+  
+      folio.estatus = false;
+      folio.fechaModificacion = new Date();
+      folio.usuarioModificacion = infoUser?.data?.ficha?.toString() || 'sistema';
+      folio.assignedFolio = nomfolio;
+  
+      const updated = await CatFolioFCFDAO.update(folio);
+      return { ok: true, message: "Folio FCF actualizado", response: updated, code: 200 };
+    } catch (error) {
+      logger.error(`[service/catFolioFCF/takeFolioFCF]: ${error}`);
+      return { ok: false, message: "Error al ocupar folio FCF", code: 500 };
+    }
+  }
+
 }

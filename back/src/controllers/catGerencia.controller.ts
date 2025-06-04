@@ -7,7 +7,7 @@ import JWTUtil from "../utils/jwt.util";
 
 export default class CatGerenciaController {
 
-  static async createCatGerencia(req: Request, res: Response): Promise<any> {
+  async createCatGerencia(req: Request, res: Response): Promise<any> {
     try {
       if (!req.body) {
         return ResponseHelper.error(res, 'No data received', null, 400);
@@ -21,7 +21,7 @@ export default class CatGerenciaController {
     }
   }
 
-  static async getCatGerencias(req: Request, res: Response): Promise<any> {
+  async getCatGerencias(req: Request, res: Response): Promise<any> {
     try {
       const response = await CatGerenciaService.getCatGerencias();
       return ResponseHelper.success(res, 'Gerencias obtenidas correctamente', response.response, response.code);
@@ -31,7 +31,7 @@ export default class CatGerenciaController {
     }
   }
 
-  static async delete(req: Request, res: Response): Promise<any> {
+  async delete(req: Request, res: Response): Promise<any> {
     try {
       const { id } = req.body;
       const token = req.headers.authorization;

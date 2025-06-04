@@ -25,4 +25,5 @@ export default interface IFolio {
     tramitado: boolean;             // Si el documento fue tramitado
     fichaPoder?: number;            // Ficha delegada (opcional)
     serieDocumental: string;        // ID de la serie documental
+    id: number;
 }

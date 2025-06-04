@@ -1,5 +1,5 @@
 export default interface IcatGerencia {
-    name: string;           // Nombre de la entidad
+    nombre: string;           // Nombre de la entidad
     siglas: string;
     fechaCreacion: Date;    // Fecha en la que se creó el registro
     fechaModificacion?: Date; // Fecha de la última modificación (opcional)

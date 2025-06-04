@@ -4,6 +4,7 @@ export default interface IUser{
     password: string
     status: string
     role: string
+    nivel: string
     adminUser: boolean
     salt: string
     gerencia: string

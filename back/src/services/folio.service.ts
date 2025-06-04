@@ -27,7 +27,15 @@ export class FolioService {
       };
     }
   }
-
+  static async updateFolio(body: Partial<IFolio>) {
+    try {
+      const updated = await FolioDAO.update(body);
+      return updated;
+    } catch (error) {
+      logger.error(`[service/folio/updateFolio]: ${error}`);
+      throw error;
+    }
+  }
   static async getFoliosFicha(ficha: string) {
     try {
       const folios = await FolioDAO.findFoliosByUser(ficha);
@@ -45,7 +53,17 @@ export class FolioService {
       };
     }
   }
-
+  
+  static async getFolioById(id: string) {
+    try {
+      const folio = await FolioDAO.findById(id);
+      return folio;
+    } catch (error) {
+      logger.error(`[service/folio/getFolioById]: ${error}`);
+      throw error;
+    }
+  }
+  
   static async getFoliosFichaAnio(ficha: string, anio: number) {
     try {
       const folios = await FolioDAO.findFoliosByUserAndYear(ficha, anio);
@@ -93,6 +111,27 @@ export class FolioService {
     }
   }
 
+  static async getFolios() {
+    try {
+      const folios = await FolioDAO.findAll();
+
+      const foliosPorAnio = folios.reduce((acc: any, folio: any) => {
+        const anio = new Date(folio.fechaCreacion).getFullYear();
+        if (!acc[anio]) {
+          acc[anio] = { anio, folios: [] };
+        }
+        acc[anio].folios.push(folio);
+        return acc;
+      }, {});
+
+      const resultado = Object.values(foliosPorAnio);
+      return resultado;
+    } catch (err) {
+      logger.error(`[folio.service/getFolios] ${err}`);
+      throw err;
+    }
+  }
+
   static async getAniosFoliosMenu(ficha: string) {
     try {
       const anios = await FolioDAO.getAniosUnicos(ficha);
@@ -108,6 +147,74 @@ export class FolioService {
         message: 'Error al obtener años únicos de folios',
         code: 500
       };
+    }
+  }
+  
+  static async getExisteNoAcuerdo(noAcuerdosGESSM: string): Promise<number> {
+    try {
+      const count = await FolioDAO.countByNoAcuerdo(noAcuerdosGESSM);
+      return count;
+    } catch (err) {
+      logger.error(`[service/folio/getExisteNoAcuerdo]: ${err}`);
+      throw err;
+    }
+  }
+
+  static async getFoliosPorMes(): Promise<any> {
+    try {
+      const folios = await FolioDAO.getFoliosTipo();
+
+      const meses = [
+        "Enero", "Febrero", "Marzo", "Abril", "Mayo",
+        "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+      ];
+      const oficiosPorMes = new Array(12).fill(0);
+      const tarjetasPorMes = new Array(12).fill(0);
+
+      folios.forEach((folio: any) => {
+        const mes = new Date(folio.fecha_creacion).getMonth();
+        const tipoFolio = folio.tipo_folio_nombre;
+
+        if (tipoFolio === "OFICIO") {
+          oficiosPorMes[mes]++;
+        } else if (tipoFolio === "TARJETA") {
+          tarjetasPorMes[mes]++;
+        }
+      });
+
+      return {
+        data: {
+          labels: meses,
+          datasets: [
+            {
+              type: "bar" as const,
+              label: "OFICIOS",
+              data: oficiosPorMes,
+              backgroundColor: "#9F2441",
+            },
+            {
+              type: "bar" as const,
+              label: "TARJETAS",
+              data: tarjetasPorMes,
+              backgroundColor: "#BC955C",
+            },
+          ],
+        },
+      };
+    } catch (error) {
+      console.error("Error en getFoliosPorMes (service):", error);
+      throw error;
+    }
+  }
+
+  static async getFolioConsecutivo(tipoFolioId: string): Promise<number> {
+    try {
+      const currentYear = new Date().getFullYear();
+      const count = await FolioDAO.countConsecutivo(tipoFolioId, currentYear);
+      return count;
+    } catch (err) {
+      logger.error(`[service/folio/getFolioConsecutivo]: ${err}`);
+      throw err;
     }
   }
   static async bulkUploadFromCSV(filePath: any): Promise<any> {

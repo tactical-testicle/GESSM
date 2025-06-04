@@ -1,0 +1,27 @@
+api:
+  identifier: 'foliosSSE'
+  port: 5002
+
+logger:
+  options:
+    level: trace
+
+mongodb:
+  url: 'mongodb://127.0.0.1:27017'
+  database: 'foliosSSE'
+  timeout: 10000
+  options:
+    useUnifiedTopology: true
+    useNewUrlParser: true
+
+key:
+  secret: "52d726b159902f9884b2e95dfcb028ce8d7aa51865f1fb5daa105dc30120cddf"
+  algorithm: "aes-256-cbc"
+
+jwt:
+  accessTokenSecret: '0d7c5c5f-768c-4d98-8900-13aadaa21937'
+  refreshTokenSecret: '1a7v8c0l-391k-1f82-4492-tha3taa11334'
+  accessTokenLife: '30d'
+  refreshTokenLife: 2592000
+
+serverNameFront: 'http://localhost:4200/'

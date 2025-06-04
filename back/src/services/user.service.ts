@@ -53,6 +53,7 @@ export class UserService {
   static async getUserByFicha(ficha: number) {
     try {
       const user = await UserDAO.findByFicha(ficha);
+      logger.info("user: ", user)
       if (!user) {
         return {
           ok: false,
@@ -138,6 +139,33 @@ export class UserService {
       };
     }
   }
+
+  static async getUserById(id: number) {
+    try {
+      const user = await UserDAO.findById(id);
+      if (!user) {
+        return {
+          ok: false,
+          message: `No se encontró el usuario con ID ${id}.`,
+          code: 404
+        };
+      }
+  
+      return {
+        ok: true,
+        data: user,
+        code: 200
+      };
+    } catch (error) {
+      logger.error(`[Error/UserService/getUserById]: ${error}`);
+      return {
+        ok: false,
+        message: 'Error al obtener el usuario por ID.',
+        code: 500
+      };
+    }
+  }
+
 
   static async getAdminUsers() {
     try {

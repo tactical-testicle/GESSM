@@ -82,7 +82,36 @@ export class CatDocumentalService {
       return { ok: false, message: 'Error al actualizar serie documental', code: 500 };
     }
   }
+  
+  static async delete(id: string, ficha: string) {
+    try {
+      const Documental = await CatDocumentalDAO.findById(id);
+      if (!Documental) {
+        return {
+          ok: false,
+          message: 'Documental no encontrado',
+          code: 404
+        };
+      }
 
+      const newStatus = !Documental.estatus;
+      const updated = await CatDocumentalDAO.updateStatus(id, newStatus);
+      return {
+        ok: true,
+        message: `Documental ${newStatus ? 'activado' : 'desactivado'} correctamente`,
+        response: updated,
+        code: 200
+      };
+    } catch (error) {
+      logger.error(`[service/catDocumental/delete]: ${error}`);
+      return {
+        ok: false,
+        message: 'Error al actualizar Documental',
+        code: 500
+      };
+    }
+  }
+  
   /** Para uso en carga masiva: getOrCreateByName */
   static async getOrCreateByName(nombre: string): Promise<number> {
     try {

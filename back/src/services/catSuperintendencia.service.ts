@@ -2,7 +2,7 @@ import { CatSuperintendenciaDAO } from '../daos/catSuperintendencia.dao';
 import IcatSuperintendencia from '../interfaces/catSuperintendencia.interface';
 import logger from '../../lib/logger';
 
-export class catSuperintendenciaService {
+export class CatSuperintendenciaService {
   static async createCatSuperintendencia(body: IcatSuperintendencia) {
     try {
       const newGerencia = await CatSuperintendenciaDAO.create(body);

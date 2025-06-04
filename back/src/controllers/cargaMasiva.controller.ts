@@ -6,7 +6,7 @@ import fileUpload from 'express-fileupload';
 
 export default class CargaMasivaController {
 
-  static async createCargaMasiva(req: Request, res: Response): Promise<any> {
+  async createCargaMasiva(req: Request, res: Response): Promise<any> {
     try {
       if (!req.files || !req.files.file) {
         return ResponseHelper.error(res, 'No se ha cargado ningún archivo.', null, 400);

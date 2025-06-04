@@ -6,6 +6,7 @@ export class CatPuestoService {
   static async createCatPuesto(body: ICatPuesto) {
     try {
       const exists = await CatPuestoDAO.findByNivel(body.nivel);
+      console.log("exists: ", exists)
       if (exists) {
         return {
           ok: false,
@@ -13,7 +14,7 @@ export class CatPuestoService {
           code: 409
         };
       }
-
+console.log("pasoo: ", body)
       const newPuesto = await CatPuestoDAO.create(body);
       return {
         ok: true,

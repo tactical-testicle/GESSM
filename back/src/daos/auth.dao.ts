@@ -1,4 +1,4 @@
-///////SECCION PAR CONSULTAS A BASE DE DATOS
+///////SECCION PAR CONSULTAS A BASE DE DATOS 2
 
 import logger from "../../lib/logger";
 import { pool } from "../config/db";

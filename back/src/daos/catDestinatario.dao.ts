@@ -3,7 +3,7 @@ import ICatDestinatario  from '../interfaces/catDestinatario.interface';
 
 export class CatDestinatarioDAO {
   static async findAll(): Promise<ICatDestinatario[]> {
-    const result = await pool.query('SELECT * FROM cat_destinatario WHERE estatus = true');
+    const result = await pool.query('SELECT * FROM cat_destinatario WHERE status = true');
     return result.rows;
   }
 
@@ -19,17 +19,17 @@ export class CatDestinatarioDAO {
 
   static async create(data: ICatDestinatario): Promise<ICatDestinatario> {
     const result = await pool.query(
-      `INSERT INTO cat_destinatario (nombre, fechaCreacion, usuarioCreacion, estatus)
+      `INSERT INTO cat_destinatario (nombre, fechaCreacion, usuarioCreacion, status)
        VALUES ($1, $2, $3, $4) RETURNING *`,
       [data.nombre, data.fechaCreacion, data.usuarioCreacion, data.estatus]
     );
     return result.rows[0];
   }
 
-  static async updateStatus(id: string, estatus: boolean): Promise<ICatDestinatario> {
+  static async updatstatus(id: string, status: boolean): Promise<ICatDestinatario> {
     const result = await pool.query(
-      `UPDATE cat_destinatario SET estatus = $1, fechaModificacion = $2 WHERE id = $3 RETURNING *`,
-      [estatus, new Date(), id]
+      `UPDATE cat_destinatario SET status = $1, fechaModificacion = $2 WHERE id = $3 RETURNING *`,
+      [status, new Date(), id]
     );
     return result.rows[0];
   }
@@ -51,7 +51,7 @@ export class CatDestinatarioDAO {
       // Si no existe, crearlo
       console.log("No existe, creando destinatario...");
       const insertQuery = `
-        INSERT INTO cat_destinatario (nombre, fecha_creacion, usuario_creacion, estatus)
+        INSERT INTO cat_destinatario (nombre, fecha_creacion, usuario_creacion, status)
         VALUES ($1, NOW(), 'carga masiva', true)
         RETURNING id
       `;

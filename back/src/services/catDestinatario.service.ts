@@ -62,7 +62,7 @@ export class CatDestinatarioService {
       }
 
       const newStatus = !destinatario.estatus;
-      const updated = await CatDestinatarioDAO.updateStatus(id, newStatus);
+      const updated = await CatDestinatarioDAO.updatstatus(id, newStatus);
       return {
         ok: true,
         message: `Destinatario ${newStatus ? 'activado' : 'desactivado'} correctamente`,

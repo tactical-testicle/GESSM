@@ -204,7 +204,9 @@ export default class FolioController {
     async generarMenu(req: Request, res: Response): Promise<any> {
         try {
             const token = req.headers.authorization;
+            console.log("1: ", token)
             const user = await new JWTUtil().decodeToken(token!) as any;
+            console.log("2: ",user)
             const infoUser = await UserService.getUserByFicha(user.ficha);
 
             const anios = await FolioService.getAniosFoliosMenu(infoUser.data?.role === "ADMIN" ? "ADMIN" : user.ficha);

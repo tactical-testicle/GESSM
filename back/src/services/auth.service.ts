@@ -81,18 +81,18 @@ export class AuthService {
       console.log("Va a revisar el password")
       const passValid = await this.encryptClass.verifyPassword(password,existing.password)
       console.log("passValid", passValid)
-      /*if(!passValid){
+      if(!passValid){
         return {ok: false,message:'Invalid data',code: 301}
-      }*/
+      }
 
-      const userToken = {
+      const user = {
         name: existing.name,
         role: existing.role,
         status: existing.status,
         id: existing.id
       }
-      const token = this.encryptClass.generateToken(userToken)
-      return {ok: true, message: 'successfull', token}
+      const token = this.encryptClass.generateToken(user)
+      return {ok: true, message: 'successfull', token, user}
     }catch(error){
       logger.error(`[Error/auth/login]: ${error}`)
       return {ok: false,message: 'Internal server error'}

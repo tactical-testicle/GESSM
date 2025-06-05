@@ -33,7 +33,7 @@ export class UserDAO {
       user.role,
       user.usuarioCreacion,
       user.nivel,
-      "salt",
+      "sdfjhaselirgbhlbiluehfkanoiusalt123-algo-ais-jajaja",
       user.gerencia,
       user.rubrica
     ];

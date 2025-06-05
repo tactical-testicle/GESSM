@@ -5,7 +5,6 @@ export default interface IUser{
     status: string
     role: string
     nivel: string
-    adminUser: boolean
     salt: string
     gerencia: string
     subgerencia: string

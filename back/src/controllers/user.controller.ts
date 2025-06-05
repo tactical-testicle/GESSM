@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { UserService } from "../services/user.service";
-import Encription from "../utils/encryption.util";
+import Encription from "../utils/encryption";
 import JWTUtil from "../utils/jwt.util";
 import { ResponseHelper } from "../helpers/response.helper";
 import logger from "../../lib/logger";
@@ -18,9 +18,8 @@ export default class UserController {
         return ResponseHelper.error(res, "La ficha que intentas crear, ya existe", null, 409);
       }
       const encription = new Encription();
-      const { iv, encryptedData } = await encription.encryptPassword(body.password);
-      body.salt = iv;
-      body.password = encryptedData;
+      const hashedPassword = await encription.hashPassword(body.password);
+      body.password = hashedPassword;
       const response = await UserService.createUser(body);
       console.log("response: ",response)
 if(response.ok)

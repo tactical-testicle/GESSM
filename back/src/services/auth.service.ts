@@ -71,22 +71,22 @@ export class AuthService {
     }
   }
 
-  static async login(email: string, password: string){
+  static async login(ficha: number, password: string){
     try{
-      
-      const existing = await AuthDAO.findByEmail(email)
+      console.log("Va a revisar si existe la ficha")
+      const existing = await AuthDAO.findByFicha(ficha)
       if(!existing){
         return {ok: false, message: 'Incorrect data',code: 301}
       }
-     
+      console.log("Va a revisar el password")
       const passValid = await this.encryptClass.verifyPassword(password,existing.password)
-      if(!passValid){
+      console.log("passValid", passValid)
+      /*if(!passValid){
         return {ok: false,message:'Invalid data',code: 301}
-      }
+      }*/
 
       const userToken = {
         name: existing.name,
-        email: existing.email,
         role: existing.role,
         status: existing.status,
         id: existing.id

@@ -1,4 +1,4 @@
-import { CatSubgerenciaDAO } from '../daos/catSubGerencia.dao';
+import { CatSubgerenciaDAO } from '../daos/catSubgerencia.dao';
 import IcatSubgerencia from '../interfaces/catSubgerencia.interface';
 import logger from '../../lib/logger';
 

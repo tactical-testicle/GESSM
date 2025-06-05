@@ -4,7 +4,7 @@ import logger from '../../lib/logger';
 import csv from 'csvtojson';
 import { CatDestinatarioDAO } from '../daos/catDestinatario.dao';
 import { CatRemitenteDAO } from '../daos/catRemitente.dao';
-import { CatSubgerenciaDAO } from '../daos/catSubGerencia.dao';
+import { CatSubgerenciaDAO } from '../daos/catSubgerencia.dao';
 import { CatSuperintendenciaDAO } from '../daos/catSuperintendencia.dao';
 import { CatDocumentalDAO } from '../daos/catDocumental.dao';
 import { CatFolioFCFDAO } from '../daos/catFolioFCF.dao';

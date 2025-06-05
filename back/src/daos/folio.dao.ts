@@ -162,7 +162,7 @@ export class FolioDAO {
   static async getFoliosTipo(): Promise<any[]> {
     const query = `
       SELECT f.fecha_creacion, tf.nombre AS tipo_folio_nombre
-      FROM folios f
+      FROM folio f
       JOIN cat_folio tf ON f.tipo_folio = tf.id
     `;
 

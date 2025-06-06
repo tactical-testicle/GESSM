@@ -102,15 +102,15 @@ export class FolioDAO {
     return parseInt(result.rows[0].count, 10);
   }
 
-  static async getAniosUnicos(ficha: string | null): Promise<number[]> {
-    const query = ficha && ficha !== 'ADMIN'
+  static async getAniosUnicos(ficha: string, role: string): Promise<number[]> {
+    const query = role !== 'ADMINs'
       ? `SELECT DISTINCT EXTRACT(YEAR FROM fecha_creacion) as anio FROM folio WHERE usuario_creacion = $1 ORDER BY anio DESC`
       : `SELECT DISTINCT EXTRACT(YEAR FROM fecha_creacion) as anio FROM folio ORDER BY anio DESC`;
 
-    const result = ficha && ficha !== 'ADMIN'
+    const result = role !== 'ADMINs'
       ? await pool.query(query, [ficha])
       : await pool.query(query);
-
+    console.log("Ejecuto el query: ", query)
     return result.rows.map(row => parseInt(row.anio));
   }
 
@@ -170,12 +170,12 @@ export class FolioDAO {
     return result.rows;
   }
 
-/** Cuenta cuántos folios existen por tipoFolio y año de creación */
-static async countConsecutivo(tipoFolioId: string, anio: number): Promise<number> {
-  const startDate = `${anio}-01-01`;
-  const endDate = `${anio + 1}-01-01`;
+  /** Cuenta cuántos folios existen por tipoFolio y año de creación */
+  static async countConsecutivo(tipoFolioId: string, anio: number): Promise<number> {
+    const startDate = `${anio}-01-01`;
+    const endDate = `${anio + 1}-01-01`;
 
-  const query = `
+    const query = `
     SELECT COUNT(*) 
     FROM folio 
     WHERE tipo_folio = $1 
@@ -183,11 +183,11 @@ static async countConsecutivo(tipoFolioId: string, anio: number): Promise<number
       AND fecha_creacion < $3
       AND status = 'active'
   `;
-  const values = [tipoFolioId, startDate, endDate];
-  const result = await pool.query(query, values);
+    const values = [tipoFolioId, startDate, endDate];
+    const result = await pool.query(query, values);
 
-  return parseInt(result.rows[0].count, 10);
-}
+    return parseInt(result.rows[0].count, 10);
+  }
 
   static async bulkInsert(folios: any[]): Promise<any[]> {
     const client = await pool.connect();

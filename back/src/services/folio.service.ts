@@ -132,9 +132,10 @@ export class FolioService {
     }
   }
 
-  static async getAniosFoliosMenu(ficha: string) {
+  static async getAniosFoliosMenu(ficha: string, role: string) {
     try {
-      const anios = await FolioDAO.getAniosUnicos(ficha);
+      console.log("ficha: "+ficha +" es Admin: "+role)
+      const anios = await FolioDAO.getAniosUnicos(ficha, role);
       return {
         ok: true,
         data: anios,

@@ -204,12 +204,15 @@ export default class FolioController {
     async generarMenu(req: Request, res: Response): Promise<any> {
         try {
             const token = req.headers.authorization;
-            console.log("1: ", token)
+            console.log("token: ", token)
             const user = await new JWTUtil().decodeToken(token!) as any;
-            console.log("2: ",user)
+            if(user == false){
+                return ResponseHelper.success(res, "Token ha expirado", user, 401);
+            }
+            console.log("user: ",user)
             const infoUser = await UserService.getUserByFicha(user.ficha);
 
-            const anios = await FolioService.getAniosFoliosMenu(infoUser.data?.role === "ADMIN" ? "ADMIN" : user.ficha);
+            const anios = await FolioService.getAniosFoliosMenu(user.ficha, infoUser.data?.role || "users" );
 
             const menu = infoUser.data?.role === "ADMIN"
                 ? [

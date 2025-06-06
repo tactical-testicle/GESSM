@@ -22,7 +22,7 @@ export class AuthDAO {
             const query = `SELECT * FROM users WHERE ficha=$1`
             const values = [ficha]
             const result = await pool.query(query,values)
-            console.log("resultado: ", result)
+            console.log("resultado con la ficha "+ficha+" : "+ result.rows[0])
             return result.rows[0]
         }catch(error){
             logger.error(`[DAOS/auth/FindByFicha]: ${error}`)

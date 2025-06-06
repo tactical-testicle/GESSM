@@ -53,7 +53,7 @@ export class UserService {
   static async getUserByFicha(ficha: number) {
     try {
       const user = await UserDAO.findByFicha(ficha);
-      logger.info("user: ", user)
+      logger.info("findByFicha: ", user)
       if (!user) {
         return {
           ok: false,

@@ -103,11 +103,11 @@ export class FolioDAO {
   }
 
   static async getAniosUnicos(ficha: string, role: string): Promise<number[]> {
-    const query = role !== 'ADMINs'
+    const query = role !== 'ADMIN'
       ? `SELECT DISTINCT EXTRACT(YEAR FROM fecha_creacion) as anio FROM folio WHERE usuario_creacion = $1 ORDER BY anio DESC`
       : `SELECT DISTINCT EXTRACT(YEAR FROM fecha_creacion) as anio FROM folio ORDER BY anio DESC`;
 
-    const result = role !== 'ADMINs'
+    const result = role !== 'ADMIN'
       ? await pool.query(query, [ficha])
       : await pool.query(query);
     console.log("Ejecuto el query: ", query)

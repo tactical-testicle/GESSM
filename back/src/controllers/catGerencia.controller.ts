@@ -17,7 +17,6 @@ export default class CatGerenciaController {
       const token = req.headers.authorization;
       const jwt = new JWTUtil();
       const decoded = await jwt.decodeToken(token as string) as any;
-      console.log("infoToken: ", decoded)
       req.body.usuarioCreacion = decoded.user.ficha
       console.log("Lo va a crear: ", req.body.usuarioCreacion)
 

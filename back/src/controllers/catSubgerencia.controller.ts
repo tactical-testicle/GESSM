@@ -13,6 +13,13 @@ export default class CatSubgerenciaController {
         return ResponseHelper.error(res, 'No data received', null, 400);
       }
 
+      console.log("Sacar el nombre de quien la va a crear: ")
+      const token = req.headers.authorization;
+      const jwt = new JWTUtil();
+      const decoded = await jwt.decodeToken(token as string) as any;
+      req.body.usuarioCreacion = decoded.user.ficha
+      console.log("Lo va a crear: ", req.body.usuarioCreacion)
+      
       const response = await CatSubgerenciaService.createCatSubgerencia(req.body);
       return ResponseHelper.success(res, 'Gerencia creada correctamente', response.response, response.code);
     } catch (error) {

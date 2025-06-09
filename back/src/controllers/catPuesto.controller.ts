@@ -13,6 +13,12 @@ export default class CatPuestoController {
             if (!req.body) {
                 return ResponseHelper.error(res, 'No data received', null, 400);
             }
+            console.log("Sacar el nombre de quien la va a crear: ")
+            const token = req.headers.authorization;
+            const jwt = new JWTUtil();
+            const decoded = await jwt.decodeToken(token as string) as any;
+            req.body.usuarioCreacion = decoded.user.ficha
+            console.log("Lo va a crear: ", req.body.usuarioCreacion)
 
             const response = await CatPuestoService.createCatPuesto(req.body);
 

@@ -6,8 +6,8 @@ export class CatDocumentalDAO {
   static async create(body: ICatDocumental): Promise<ICatDocumental> {
     const query = `
       INSERT INTO cat_documental
-        (nombre, fecha_creacion, usuario_creacion, status)
-      VALUES ($1, NOW(), $2, 'active')
+        (name, fecha_creacion, usuario_creacion, estatus)
+      VALUES ($1, NOW(), $2, 'true')
       RETURNING *;
     `;
     const values = [body.name, body.usuarioCreacion];

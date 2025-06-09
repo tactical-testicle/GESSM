@@ -5,6 +5,7 @@ import logger from '../../lib/logger';
 export class CatGerenciaService {
   static async createCatGerencia(body: ICatGerencia) {
     try {
+      
       const newGerencia = await CatGerenciaDAO.create(body);
       return {
         ok: true,
@@ -43,6 +44,7 @@ export class CatGerenciaService {
 
   static async getCatGerencias() {
     try {
+      console.log("2")
       const gerencias = await CatGerenciaDAO.findAll();
       return {
         ok: true,

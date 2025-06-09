@@ -36,8 +36,10 @@ export class CatGerenciaDAO {
   }
 
   static async findAll(): Promise<ICatGerencia[]> {
+    console.log("3")
     const query = 'SELECT * FROM cat_gerencia';
     const result = await pool.query(query);
+    console.log("findAll gerencias: ", result)
     return result.rows;
   }
 

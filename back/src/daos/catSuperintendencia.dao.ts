@@ -4,7 +4,7 @@ import  IcatSuperintendencia  from '../interfaces/catSuperintendencia.interface'
 export class CatSuperintendenciaDAO {
   static async create(body: IcatSuperintendencia): Promise<any> {
     const query = `
-      INSERT INTO cat_superintendencia (nombre, fechaCreacion, usuarioCreacion, status)
+      INSERT INTO cat_superintendencia (nombre, fecha_creacion, usuario_creacion, status)
       VALUES ($1, $2, $3, $4)
       RETURNING *;
     `;
@@ -17,8 +17,8 @@ export class CatSuperintendenciaDAO {
     const query = `
       UPDATE cat_superintendencia
       SET nombre = $1,
-          fechaActualizacion = $2,
-          usuarioActualizacion = $3,
+          fecha_actualizacion = $2,
+          usuario_actualizacion = $3,
           status = $4
       WHERE id = $5
       RETURNING *;

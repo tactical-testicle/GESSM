@@ -254,8 +254,8 @@ export class FolioDAO {
           noAcuerdosGESSM = $3,
           observaciones = $4,
           rubricasElaboracion = $5,
-          usuarioActualizacion = $6,
-          fechaActualizacion = $7,
+          usuario_actualizacion = $6,
+          fecha_actualizacion = $7,
           status = $8,
           tramitado = $9,
           noOficio = $10

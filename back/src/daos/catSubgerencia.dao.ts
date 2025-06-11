@@ -4,7 +4,7 @@ import  IcatSubgerencia  from '../interfaces/catSubgerencia.interface';
 export class CatSubgerenciaDAO {
   static async create(body: IcatSubgerencia): Promise<any> {
     const query = `
-      INSERT INTO cat_subgerencia (nombre, fechaCreacion, usuarioCreacion, status)
+      INSERT INTO cat_subgerencia (nombre, fecha_creacion, usuario_creacion, status)
       VALUES ($1, $2, $3, $4)
       RETURNING *;
     `;
@@ -17,8 +17,8 @@ export class CatSubgerenciaDAO {
     const query = `
       UPDATE cat_subgerencia
       SET nombre = $1,
-          fechaActualizacion = $2,
-          usuarioActualizacion = $3,
+          fecha_actualizacion = $2,
+          usuario_actualizacion = $3,
           status = $4
       WHERE id = $5
       RETURNING *;

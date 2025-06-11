@@ -33,8 +33,8 @@ export class CatFolioFCFDAO {
           inicio_fcf         = $3,
           folio_fcf          = $4,
           assigned_folio     = $5,
-          fecha_modificacion = NOW(),
-          usuario_modificacion = $6,
+          fecha_actualizacion = NOW(),
+          usuario_actualizacion = $6,
           status             = $7
       WHERE id = $8
       RETURNING *;

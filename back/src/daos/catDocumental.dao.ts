@@ -52,7 +52,7 @@ export class CatDocumentalDAO {
 
   static async updateStatus(id: string, estatus: boolean): Promise<ICatDocumental> {
       const result = await pool.query(
-        `UPDATE cat_Documental SET estatus = $1, fechaModificacion = $2 WHERE id = $3 RETURNING *`,
+        `UPDATE cat_Documental SET estatus = $1, fecha_actualizacion = $2 WHERE id = $3 RETURNING *`,
         [estatus, new Date(), id]
       );
       return result.rows[0];

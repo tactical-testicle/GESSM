@@ -18,8 +18,8 @@ export class CatGerenciaDAO {
     const query = `
       UPDATE cat_gerencia
       SET nombre = $1,
-          fechaActualizacion = $2,
-          usuarioActualizacion = $3,
+          fecha_actualizacion = $2,
+          usuario_actualizacion = $3,
           status = $4
       WHERE id = $5
       RETURNING *;

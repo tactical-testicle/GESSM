@@ -12,12 +12,15 @@ import catDestinatarioRouter from './catDestinatario.router'
 import catRemitenteRouter from './catRemitente.router'
 import cargaMasivaRouter from './cargaMasiva.router'
 import catFolioFCFRouter from './catFolioFCF.router'
+import catIncidenciaRouter from './catIncidencia.router'
+import estadoFuerzaRouter from './estadoFuerza.router'
 
 const routers = express()
 
 routers.use('/user',userRouter)
 routers.use('/folio', folioRouter)
 routers.use('/auth', authRouter)
+routers.use('/estadoFuerza', estadoFuerzaRouter)
 
 // catalogos
 routers.use('/catFolio', catFolioRouter)
@@ -29,6 +32,8 @@ routers.use('/catDestinatario', catDestinatarioRouter)
 routers.use('/catRemitente', catRemitenteRouter)
 routers.use('/catDocumental', catDocumentalRouter)
 routers.use('/catFolioFCF', catFolioFCFRouter)
+routers.use('/catIncidencia', catIncidenciaRouter)
+
 
 // carga
 routers.use('/cargaMasiva', cargaMasivaRouter)

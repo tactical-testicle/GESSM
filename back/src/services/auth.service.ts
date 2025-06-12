@@ -1,13 +1,15 @@
 import logger from "../../lib/logger";
 import { AuthDAO } from "../daos/auth.dao";
 import { ResponseHelper } from "../helpers/response.helper";
-import  IUser  from "../interfaces/user.interface";
+import IUser from "../interfaces/user.interface";
 import EncryptioClass from "../utils/encryption";
+import JWTUtil from "../utils/jwt.util";
+
 
 export class AuthService {
   static encryptClass = new EncryptioClass();
 
-  private removeSensitiveData(user: any){
+  private removeSensitiveData(user: any) {
     let objectUser = user.toObject()
     delete objectUser.password
     delete objectUser.phone
@@ -71,18 +73,18 @@ export class AuthService {
     }
   }
 
-  static async login(ficha: number, password: string){
-    try{
+  static async login(ficha: number, password: string) {
+    try {
       console.log("Va a revisar si existe la ficha")
       const existing = await AuthDAO.findByFicha(ficha)
-      if(!existing){
-        return {ok: false, message: 'No existe esa ficha registrada: '+ficha,code: 301}
+      if (!existing) {
+        return { ok: false, message: 'No existe esa ficha registrada: ' + ficha, code: 301 }
       }
       console.log("Va a revisar el password")
-      const passValid = await this.encryptClass.verifyPassword(password,existing.password)
+      const passValid = await this.encryptClass.verifyPassword(password, existing.password)
       console.log("passValid", passValid)
-      if(!passValid){
-        return {ok: false,message:'Invalid data',code: 301}
+      if (!passValid) {
+        return { ok: false, message: 'Invalid data', code: 301 }
       }
 
       const user = {
@@ -93,14 +95,32 @@ export class AuthService {
         id: existing.id
       }
       const token = this.encryptClass.generateToken(user)
-      return {ok: true, message: 'successfull', token, user}
-    }catch(error){
+      return { ok: true, message: 'successfull', token, user }
+    } catch (error) {
       logger.error(`[Error/auth/login]: ${error}`)
-      return {ok: false,message: 'Internal server error'}
+      return { ok: false, message: 'Internal server error' }
     }
   }
-  
 
-  
+  static async LoginRefresh(ficha: number, password: string, user: IUser) {
+    try {
+      const frontUser = {
+        id: user.id,
+        name: user.nombre,
+        ficha: user.ficha,
+        role: user.role,
+        status: user.status
+      }
+      const jwt = new JWTUtil();
+      const tokenGen = await jwt.generateToken(frontUser)
+      return { ok: true, message: 'Successfull', response: null, code: 200, user: frontUser, token: tokenGen }
+
+    } catch (err) {
+      logger.error(`[AuthControll/LoginRefresh] ${err}`)
+      return { ok: false, message: 'Error ocurred', response: err, code: 500 }
+    }
+  }
+
+
 
 }

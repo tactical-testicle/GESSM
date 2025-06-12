@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import logger from "../../lib/logger";
 import { ResponseHelper } from "../helpers/response.helper";
 import { AuthService } from "../services/auth.service";
+import JWTUtil from "../utils/jwt.util";
 
 export default class AuthController {
     async register(req: Request, res: Response): Promise<any> {
@@ -13,7 +14,7 @@ export default class AuthController {
             const user = await AuthService.register(req.body);
 
             if (!user?.ok) {
-                return ResponseHelper.error(res,user.message, user?.createdUser, user?.code);
+                return ResponseHelper.error(res, user.message, user?.createdUser, user?.code);
             }
 
             return ResponseHelper.success(res, 'User created successfully', user, 201);
@@ -23,14 +24,33 @@ export default class AuthController {
         }
     }
 
-    async login(req: Request, res: Response):Promise<any>{
-        try{
-            const {ficha, password} = req.body
+    async login(req: Request, res: Response): Promise<any> {
+        try {
+            const { ficha, password } = req.body
             const result = await AuthService.login(ficha, password)
-            return ResponseHelper.success(res,'Login successfulli', result, 201)
-        }catch(error){
+            return ResponseHelper.success(res, 'Login successfulli', result, 201)
+        } catch (error) {
             logger.error(`[Error/auth/controller/login]: ${error}`)
-            return ResponseHelper.error(res, 'Error ocurred', null,500)
+            return ResponseHelper.error(res, 'Error ocurred', null, 500)
         }
     }
+
+    async auth(req: Request, res: Response): Promise<any> {
+        try {
+            console.log("Sacar el nombre de quien la va a crear: ")
+            const token = req.headers.authorization;
+            const jwt = new JWTUtil();
+            const decoded = await jwt.decodeToken(token as string) as any;
+            req.body.usuarioCreacion = decoded.user.ficha
+            console.log("Lo va a crear: ", req.body.usuarioCreacion)
+
+            const { ficha, password } = req.body
+            const result = await AuthService.LoginRefresh(ficha, password, decoded.user)
+            return ResponseHelper.success(res, 'Login successfulli', result, 201)
+        } catch (error) {
+            logger.error(`[Error/auth/controller/login]: ${error}`)
+            return ResponseHelper.error(res, 'Error ocurred', null, 500)
+        }
+    }
+
 }

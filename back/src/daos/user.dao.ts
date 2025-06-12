@@ -26,7 +26,7 @@ export class UserDAO {
       RETURNING *;
     `;
     const values = [
-      user.name,
+      user.nombre,
       user.password,
       user.ficha,
       user.status,
@@ -57,7 +57,7 @@ export class UserDAO {
       RETURNING *;
     `;
     const values = [
-      user.name,
+      user.nombre,
       user.password,
       user.ficha,
       user.status,

@@ -34,7 +34,7 @@ export class AuthDAO {
             const query = `INSERT INTO users(name,role,password)
             VALUES($1,$2,$3)
             RETURNING id, name, status`
-            const values = [user.name,user.role,user.password]
+            const values = [user.nombre,user.role,user.password]
             const result = await pool.query(query,values)
             return result.rows[0]
         }catch(error){

@@ -8,7 +8,7 @@ export class CatSuperintendenciaDAO {
       VALUES ($1, $2, $3, $4)
       RETURNING *;
     `;
-    const values = [body.name, new Date(), body.usuarioCreacion, 'active'];
+    const values = [body.nombre, new Date(), body.usuarioCreacion, 'active'];
     const result = await pool.query(query, values);
     return result.rows[0];
   }
@@ -24,7 +24,7 @@ export class CatSuperintendenciaDAO {
       RETURNING *;
     `;
     const values = [
-      body.name,
+      body.nombre,
       new Date(),
       body.fechaModificacion || '',
       body.estatus,

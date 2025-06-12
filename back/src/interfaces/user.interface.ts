@@ -1,5 +1,5 @@
 export default interface IUser{
-    name: string
+    nombre: string
     ficha: number
     password: string
     status: string

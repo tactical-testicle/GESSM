@@ -10,7 +10,7 @@ export class CatDocumentalDAO {
       VALUES ($1, NOW(), $2, 'true')
       RETURNING *;
     `;
-    const values = [body.name, body.usuarioCreacion];
+    const values = [body.nombre, body.usuarioCreacion];
     const result = await pool.query(query, values);
     return result.rows[0];
   }
@@ -41,7 +41,7 @@ export class CatDocumentalDAO {
       RETURNING *;
     `;
     const values = [
-      body.name,
+      body.nombre,
       body.usuarioModificacion || '',
       body.estatus,
       body.id

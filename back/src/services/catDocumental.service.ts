@@ -8,11 +8,11 @@ export class CatDocumentalService {
     try {
       // Verificar duplicados por nombre
       const exists = await CatDocumentalDAO.findAll()
-        .then(list => list.find(d => d.name === body.name));
+        .then(list => list.find(d => d.nombre === body.nombre));
       if (exists) {
         return {
           ok: false,
-          message: `La serie documental '${body.name}' ya está registrada.`,
+          message: `La serie documental '${body.nombre}' ya está registrada.`,
           code: 409
         };
       }

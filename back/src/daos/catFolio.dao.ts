@@ -4,7 +4,7 @@ import  ICatFolio  from '../interfaces/catFolio.interface';
 export class CatFolioDAO {
   static async create(folio: ICatFolio): Promise<ICatFolio> {
     const query = `
-      INSERT INTO cat_folio (nombre, fecha_creacion, usuario_creacion, estatus)
+      INSERT INTO cat_folio (nombre, fecha_creacion, usuario_creacion, status)
       VALUES ($1, $2, $3, $4)
       RETURNING *`;
     const values = [
@@ -19,6 +19,7 @@ export class CatFolioDAO {
 
   static async findAll(): Promise<ICatFolio[]> {
     const res = await pool.query('SELECT * FROM cat_folio');
+    console.log(res.rows)
     return res.rows;
   }
 

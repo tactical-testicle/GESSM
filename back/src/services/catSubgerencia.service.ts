@@ -8,7 +8,7 @@ export class CatSubgerenciaService {
       const newGerencia = await CatSubgerenciaDAO.create(body);
       return {
         ok: true,
-        message: 'Gerencia creada exitosamente',
+        message: 'Subgerencia creada exitosamente',
         response: newGerencia,
         code: 201
       };
@@ -27,7 +27,7 @@ export class CatSubgerenciaService {
       const updatedGerencia = await CatSubgerenciaDAO.update(body);
       return {
         ok: true,
-        message: 'Gerencia actualizada correctamente',
+        message: 'Subgerencia actualizada correctamente',
         response: updatedGerencia,
         code: 200
       };
@@ -35,7 +35,7 @@ export class CatSubgerenciaService {
       logger.error(`[service/catSubgerencia/update]: ${error}`);
       return {
         ok: false,
-        message: 'Error al actualizar la gerencia',
+        message: 'Error al actualizar la subgerencias',
         code: 500
       };
     }
@@ -46,7 +46,7 @@ export class CatSubgerenciaService {
       const gerencias = await CatSubgerenciaDAO.findAll();
       return {
         ok: true,
-        message: 'Gerencias obtenidas',
+        message: 'Subgerencias obtenidas',
         response: gerencias,
         code: 200
       };
@@ -54,7 +54,7 @@ export class CatSubgerenciaService {
       logger.error(`[service/catSubgerencia/getAll]: ${error}`);
       return {
         ok: false,
-        message: 'Error al obtener gerencias',
+        message: 'Error al obtener subgerencias',
         code: 500
       };
     }

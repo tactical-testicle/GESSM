@@ -20,8 +20,8 @@ export class CatDestinatarioDAO {
   static async create(data: ICatDestinatario): Promise<ICatDestinatario> {
     const result = await pool.query(
       `INSERT INTO cat_destinatario (nombre, fecha_creacion, usuario_creacion, status)
-       VALUES ($1, $2, $3, $4) RETURNING *`,
-      [data.nombre, data.fechaCreacion, data.usuarioCreacion, data.estatus]
+       VALUES ($1, NOW(), $2, $3) RETURNING *`,
+      [data.nombre, data.usuarioCreacion, data.estatus]
     );
     return result.rows[0];
   }

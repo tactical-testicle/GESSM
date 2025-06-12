@@ -31,10 +31,10 @@ export default class CatSubgerenciaController {
   async getCatSubgerencias(req: Request, res: Response): Promise<any> {
     try {
       const response = await CatSubgerenciaService.getCatSubgerencias();
-      return ResponseHelper.success(res, 'Gerencias obtenidas correctamente', response.response, response.code);
+      return ResponseHelper.success(res, 'Subgerencias obtenidas correctamente', response.response, response.code);
     } catch (error) {
       logger.error(`[controller/catSubgerencia/getAll]: ${error}`);
-      return ResponseHelper.error(res, 'Error al obtener gerencias', null, 500);
+      return ResponseHelper.error(res, 'Error al obtener subgerencias', null, 500);
     }
   }
 

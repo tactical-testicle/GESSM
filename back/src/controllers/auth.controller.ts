@@ -40,8 +40,7 @@ export default class AuthController {
             const token = req.headers.authorization;
             const jwt = new JWTUtil();
             const decoded = await jwt.decodeToken(token as string) as any;
-            const { ficha, password } = req.body
-            const result = await AuthService.LoginRefresh(ficha, password, decoded.user)
+            const result = await AuthService.LoginRefresh(decoded.user)
             return ResponseHelper.success(res, 'Login successfulli', result, 201)
         } catch (error) {
             logger.error(`[Error/auth/controller/login]: ${error}`)

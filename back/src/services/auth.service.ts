@@ -102,7 +102,7 @@ export class AuthService {
     }
   }
 
-  static async LoginRefresh(ficha: number, password: string, user: IUser) {
+  static async LoginRefresh(user: IUser) {
     try {
       const frontUser = {
         id: user.id,

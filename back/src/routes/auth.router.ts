@@ -7,5 +7,5 @@ const autController = new AuthController()
 
 authRouter.post('/register',autController.register.bind(autController))
 authRouter.post('/login',autController.login.bind(autController))
-authRouter.get('/auth',autController.auth.bind(autController))
+authRouter.get('/',autController.auth.bind(autController))
 export default authRouter

@@ -41,7 +41,7 @@ export default class CatFolioController {
         return ResponseHelper.error(res, 'No CatFolios found', [], 404);
       }
 
-      return ResponseHelper.success(res, 'Fetched CatFolios successfully', response, 200);
+      return ResponseHelper.success(res, 'Fetched CatFolios successfully', response.response, 200);
     } catch (error) {
       logger.error(`[controller/catFolio/getAll]: ${error}`);
       return ResponseHelper.error(res, 'Internal Server Error', null, 500);

@@ -210,8 +210,8 @@ export default class FolioController {
                 return ResponseHelper.success(res, "Token ha expirado", user, 401);
             }
             console.log("va a mandar a buscar la ficha: "+ user.ficha)
-            const infoUser = await UserService.getUserByFicha(user.user.ficha);
-            const anios = await FolioService.getAniosFoliosMenu(user.user.ficha, infoUser.data?.role || "users" );
+            const infoUser = await UserService.getUserByFicha(user.ficha);
+            const anios = await FolioService.getAniosFoliosMenu(user.ficha, infoUser.data?.role || "users" );
 
             const menu = infoUser.data?.role === "ADMIN"
                 ? [

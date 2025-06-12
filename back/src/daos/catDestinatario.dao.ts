@@ -3,7 +3,7 @@ import ICatDestinatario  from '../interfaces/catDestinatario.interface';
 
 export class CatDestinatarioDAO {
   static async findAll(): Promise<ICatDestinatario[]> {
-    const result = await pool.query('SELECT * FROM cat_destinatario WHERE status = true');
+    const result = await pool.query('SELECT * FROM cat_destinatario WHERE status = $1', ['active']);
     return result.rows;
   }
 
@@ -20,8 +20,8 @@ export class CatDestinatarioDAO {
   static async create(data: ICatDestinatario): Promise<ICatDestinatario> {
     const result = await pool.query(
       `INSERT INTO cat_destinatario (nombre, fecha_creacion, usuario_creacion, status)
-       VALUES ($1, NOW(), $2, $3) RETURNING *`,
-      [data.nombre, data.usuarioCreacion, data.estatus]
+       VALUES ($1, NOW(), $2, 'active') RETURNING *`,
+      [data.nombre, data.usuarioCreacion]
     );
     return result.rows[0];
   }
@@ -52,7 +52,7 @@ export class CatDestinatarioDAO {
       console.log("No existe, creando destinatario...");
       const insertQuery = `
         INSERT INTO cat_destinatario (nombre, fecha_creacion, usuario_creacion, status)
-        VALUES ($1, NOW(), 'carga masiva', true)
+        VALUES ($1, NOW(), 'carga masiva', 'active')
         RETURNING id
       `;
       const insertResult = await pool.query(insertQuery, [nombreDestinatario]);

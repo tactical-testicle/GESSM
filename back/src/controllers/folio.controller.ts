@@ -204,7 +204,10 @@ export default class FolioController {
     async generarMenu(req: Request, res: Response): Promise<any> {
         try {
             const token = req.headers.authorization;
-            console.log("token: ", token)
+            if(!token){
+                console.log("No se recibio token.")
+                return ResponseHelper.error(res, "No se recibio token.", null, 401);
+            }
             const user = await new JWTUtil().decodeToken(token!) as any;
             if(user == false){
                 return ResponseHelper.success(res, "Token ha expirado", user, 401);

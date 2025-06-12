@@ -5,13 +5,11 @@ export class CatFolioDAO {
   static async create(folio: ICatFolio): Promise<ICatFolio> {
     const query = `
       INSERT INTO cat_folio (nombre, fecha_creacion, usuario_creacion, status)
-      VALUES ($1, $2, $3, $4)
+      VALUES ($1, NOW(), $2, 'active')
       RETURNING *`;
     const values = [
       folio.nombre,
-      folio.fechaCreacion,
-      folio.usuarioCreacion,
-      folio.estatus,
+      folio.usuarioCreacion
     ];
     const res = await pool.query(query, values);
     return res.rows[0];

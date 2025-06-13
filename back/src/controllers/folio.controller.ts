@@ -132,12 +132,13 @@ export default class FolioController {
         try {
             const token = req.headers.authorization;
             const user = await new JWTUtil().decodeToken(token!) as any;
-            const infoUser = await UserService.getUserByFicha(user.ficha);
+            console.log("user en getFolios: ", user)
+            const infoUser = await UserService.getUserByFicha(user.user.ficha);
 
             if (!infoUser.data?.ficha) {
                 return ResponseHelper.error(res, 'Ficha no disponible para el usuario', null, 400);
             }
-
+console.log("rol del infoUser: ",infoUser.data?.role)
             const data = infoUser.data?.role === "ADMIN"
                 ? await FolioService.getFolios()
                 : await FolioService.getFoliosFicha(infoUser.data.ficha.toString());

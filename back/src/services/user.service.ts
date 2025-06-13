@@ -52,8 +52,9 @@ export class UserService {
 
   static async getUserByFicha(ficha: number) {
     try {
+      console.log("ficha recibida en getUserByFicha: ", ficha)
       const user = await UserDAO.findByFicha(ficha);
-      logger.info("findByFicha: ", user)
+      logger.info("user en getUserByFicha: ", user)
       if (!user) {
         return {
           ok: false,

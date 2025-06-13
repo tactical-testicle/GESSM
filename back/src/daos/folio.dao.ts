@@ -52,20 +52,20 @@ export class FolioDAO {
 
   static async findAll(): Promise<any[]> {
     const result = await pool.query(`
-      SELECT f.*, 
-             tf.nombre as tipoFolioNombre,
-             r.nombre as remitenteNombre,
-             sd.serie as serieDocumentalNombre,
-             ARRAY(
-               SELECT nombre 
-               FROM cat_destinatario 
-               WHERE id = ANY(f.destinatarios)
-             ) as destinatariosNombres
+      SELECT 
+        f.*, 
+        tf.nombre AS tipoFolioNombre,
+        r.nombre AS remitenteNombre,
+        sd.serie AS serieDocumentalNombre,
+        ARRAY_AGG(cd.nombre ORDER BY cd.nombre) AS destinatariosNombres
       FROM folio f
-      LEFT JOIN cat_folio tf ON f.tipoFolio = tf.id
+      LEFT JOIN cat_folio tf ON f.tipo_folio = tf.id
       LEFT JOIN cat_remitente r ON f.remitente = r.id
-      LEFT JOIN cat_documental sd ON f.serieDocumental = sd.id
-      ORDER BY f.fechaCreacion ASC;
+      LEFT JOIN cat_documental sd ON f.serie_documental = sd.id
+      LEFT JOIN folio_destinatario fd ON fd.folio_id = f.id
+      LEFT JOIN cat_destinatario cd ON cd.id = fd.destinatario_id
+      GROUP BY f.id, tf.nombre, r.nombre, sd.serie
+      ORDER BY f.fecha_creacion ASC;
     `);
     return result.rows;
   }

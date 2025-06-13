@@ -114,9 +114,10 @@ export class FolioService {
   static async getFolios() {
     try {
       const folios = await FolioDAO.findAll();
-
+console.log("Folios encontrados en getFolios: ", folios)
       const foliosPorAnio = folios.reduce((acc: any, folio: any) => {
-        const anio = new Date(folio.fechaCreacion).getFullYear();
+        const anio = new Date(folio.fecha_creacion).getFullYear();
+        console.log("Anio del folio: ", anio)
         if (!acc[anio]) {
           acc[anio] = { anio, folios: [] };
         }

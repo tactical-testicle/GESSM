@@ -13,7 +13,7 @@ export default interface IFolio {
     noAcuerdosGESSM: string;        // Número de acuerdos de GESSM
     anexos: boolean;                // Indica si hay anexos
     destinatarios: number[];        // Lista de IDs de destinatarios
-    remitente: string;              // ID del remitente
+    remitente: number;              // ID del remitente
     observaciones: string;          // Observaciones generales
     rubricasElaboracion: string[];  // Lista de rúbricas (puede ser texto o nombres)
     fechaCreacion: Date;            // Fecha de creación del registro

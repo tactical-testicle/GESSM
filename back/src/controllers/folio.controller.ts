@@ -16,10 +16,10 @@ export default class FolioController {
     async createFolio(req: Request, res: Response): Promise<any> {
         try {
             const token = req.headers.authorization;
-            const body = req.body;
+            const body = req.body.myForm;
             const user = await new JWTUtil().decodeToken(token!) as any;
-
-            const listIds = await new FoliosUtils().arrayDestinatarios(body.destinatarios);
+            console.log("Body que llego: ", body)
+            const listIds = body.destinatarios;
             if (!listIds) return ResponseHelper.error(res, "Invalid destinatarios", null, 400);
             body.destinatarios = listIds;
 
@@ -35,7 +35,7 @@ export default class FolioController {
             const gerencia = await CatGerenciaService.getCatGerencia(infoUser.gerencia);
             const superintendencia = await CatSuperintendenciaService.getCatSuperintendencia(infoUser.superintendencia);
 
-            const tipoFolioId = body.tipoFolio.toString();
+            const tipoFolioId = body.tipoFolio;
             const count = await FolioService.getFolioConsecutivo(tipoFolioId);
             body.noConsecutivo = count + 1;
             body.usuarioCreacion = (body.fichaPoder ?? user.ficha).toString();
@@ -138,7 +138,7 @@ export default class FolioController {
             if (!infoUser.data?.ficha) {
                 return ResponseHelper.error(res, 'Ficha no disponible para el usuario', null, 400);
             }
-console.log("rol del infoUser: ",infoUser.data?.role)
+            console.log("rol del infoUser: ", infoUser.data?.role)
             const data = infoUser.data?.role === "ADMIN"
                 ? await FolioService.getFolios()
                 : await FolioService.getFoliosFicha(infoUser.data.ficha.toString());
@@ -183,39 +183,39 @@ console.log("rol del infoUser: ",infoUser.data?.role)
 
     async getFolioById(req: Request, res: Response): Promise<any> {
         try {
-          const { id } = req.params;
-    
-          if (!id) {
-            return ResponseHelper.error(res, 'ID no proporcionado', null, 400);
-          }
-    
-          const folio = await FolioService.getFolioById(id);
-    
-          if (!folio) {
-            return ResponseHelper.error(res, 'Folio no encontrado', null, 404);
-          }
-    
-          return ResponseHelper.success(res, 'Folio encontrado', folio, 200);
+            const { id } = req.params;
+
+            if (!id) {
+                return ResponseHelper.error(res, 'ID no proporcionado', null, 400);
+            }
+
+            const folio = await FolioService.getFolioById(id);
+
+            if (!folio) {
+                return ResponseHelper.error(res, 'Folio no encontrado', null, 404);
+            }
+
+            return ResponseHelper.success(res, 'Folio encontrado', folio, 200);
         } catch (error) {
-          logger.error(`[controller/folio/getFolioById]: ${error}`);
-          return ResponseHelper.error(res, 'Error al obtener folio', null, 500);
+            logger.error(`[controller/folio/getFolioById]: ${error}`);
+            return ResponseHelper.error(res, 'Error al obtener folio', null, 500);
         }
-      }
+    }
 
     async generarMenu(req: Request, res: Response): Promise<any> {
         try {
             const token = req.headers.authorization;
-            if(!token){
+            if (!token) {
                 console.log("No se recibio token.")
                 return ResponseHelper.error(res, "No se recibio token.", null, 401);
             }
             const user = await new JWTUtil().decodeToken(token!) as any;
-            if(user == false){
+            if (user == false) {
                 return ResponseHelper.success(res, "Token ha expirado", user, 401);
             }
-            console.log("va a mandar a buscar la ficha: "+ user.user.ficha)
+            console.log("va a mandar a buscar la ficha: " + user.user.ficha)
             const infoUser = await UserService.getUserByFicha(user.user.ficha);
-            const anios = await FolioService.getAniosFoliosMenu(user.user.ficha, infoUser.data?.role || "users" );
+            const anios = await FolioService.getAniosFoliosMenu(user.user.ficha, infoUser.data?.role || "users");
 
             const menu = infoUser.data?.role === "ADMIN"
                 ? [

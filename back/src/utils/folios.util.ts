@@ -3,8 +3,8 @@ export class FoliosUtils {
   
     async arrayDestinatarios(destinatarios: any[]): Promise<string[] | false> {
       try {
-        // Se espera que cada destinatario tenga una propiedad 'id' (tipo string o number)
-        const ids = destinatarios.map((destinatario) => destinatario.id?.toString());
+        console.log("llego el array de destinatarios con id: ", destinatarios)
+        const ids = destinatarios.map((destinatario) => destinatario.id);
         
         if (!ids || ids.length === 0 || ids.includes(undefined)) {
           return false;

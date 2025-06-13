@@ -208,8 +208,9 @@ export class FolioService {
     }
   }
 
-  static async getFolioConsecutivo(tipoFolioId: string): Promise<number> {
+  static async getFolioConsecutivo(tipoFolioId: number): Promise<number> {
     try {
+      console.log("llego el tipoFolioId en getFolioConsecutivo: ", tipoFolioId)
       const currentYear = new Date().getFullYear();
       const count = await FolioDAO.countConsecutivo(tipoFolioId, currentYear);
       return count;

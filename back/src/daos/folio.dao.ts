@@ -4,15 +4,12 @@ import IFolio from '../interfaces/folio.interface';
 export class FolioDAO {
   static async createFolio(body: IFolio): Promise<any> {
     const result = await pool.query(
-      `INSERT INTO folio (tipo_folio, destinatarios, remitente, subgerencia, superintendencia, anexos, is_folio_fcf, asunto, antecedentes, no_acuerdos_gessm, observaciones, rubricas_elaboracion, usuario_creacion, no_oficio, tema, tramitado, serie_documental, folio_fcfp, fecha_creacion)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,NOW())
+      `INSERT INTO folio (tipo_folio, remitente, anexos, is_folio_fcf, asunto, antecedentes, no_acuerdos_gessm, observaciones, rubricas_elaboracion, usuario_creacion, no_oficio, tema, tramitado, serie_documental, folio_fcfp, fecha_creacion)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,NOW())
        RETURNING *`,
       [
         body.tipoFolio,
-        body.destinatarios,
         body.remitente,
-        body.subgerencia,
-        body.superintendencia,
         body.anexos,
         body.isFolioFCF,
         body.asunto,
@@ -28,7 +25,20 @@ export class FolioDAO {
         body.folioFCFp ?? null,
       ]
     );
+    //guardar destinatario y folio en la tabla intermedia
+    this.foliosAndDestinatarios(result.rows[0].id, body.destinatarios)
     return result.rows[0];
+  }
+
+  static async foliosAndDestinatarios(folioId: number, destinatarioIds: number[]) {
+    const destinatarios = destinatarioIds;
+    for (const destinatarioId of destinatarios) {
+      await pool.query(
+        'INSERT INTO folio_destinatario (folio_id, destinatario_id) VALUES ($1, $2)',
+        [folioId, destinatarioId]
+      );
+    }
+    console.log("Destinatarios y folio intermedio guardados.")
   }
 
   static async findFoliosByUser(userFicha: string): Promise<IFolio[]> {
@@ -171,7 +181,7 @@ export class FolioDAO {
   }
 
   /** Cuenta cuántos folios existen por tipoFolio y año de creación */
-  static async countConsecutivo(tipoFolioId: string, anio: number): Promise<number> {
+  static async countConsecutivo(tipoFolioId: number, anio: number): Promise<number> {
     const startDate = `${anio}-01-01`;
     const endDate = `${anio + 1}-01-01`;
 
